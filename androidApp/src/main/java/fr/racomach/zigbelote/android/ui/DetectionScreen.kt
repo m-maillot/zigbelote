@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -17,8 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.min
-import fr.racomach.zigbelote.android.camera.CameraScreenPlaceholderPreview
+import fr.racomach.zigbelote.android.ui.camera.CameraScreenPlaceholderPreview
 import fr.racomach.zigbelote.android.theme.ZigBeloteTheme
 import fr.racomach.zigbelote.android.ui.detail.Details
 import fr.racomach.zigbelote.android.viewModel.DetectCardUiState
@@ -28,7 +28,7 @@ import fr.racomach.zigbelote.android.viewModel.stateIdleForPreview
 fun DetectionScreen(
     modifier: Modifier = Modifier,
     state: DetectCardUiState,
-    camera: @Composable BoxScope.(modifier: Modifier) -> Unit = { },
+    camera: @Composable BoxScope.(Modifier, DetectCardUiState) -> Unit,
 ) {
     Column(modifier = modifier.fillMaxSize()) {
         Box(
@@ -43,21 +43,23 @@ fun DetectionScreen(
         BoxWithConstraints(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(0.5f)
+                .fillMaxHeight()
+                .weight(0.7f)
                 .padding(16.dp),
             contentAlignment = Alignment.Center
         ) {
             camera(
-                modifier = Modifier
-                    .width(min(maxHeight, maxWidth))
-                    .height(min(maxHeight, maxWidth))
+                Modifier
+                    .width(maxWidth)
+                    .height(maxHeight)
                     .align(Alignment.Center),
+                state,
             )
         }
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(0.4f)
+                .weight(0.2f)
                 .padding(8.dp),
             contentAlignment = Alignment.BottomCenter
         ) {
@@ -85,9 +87,9 @@ private fun DetectionScreenPreview() {
         ) {
             DetectionScreen(
                 state = stateIdleForPreview,
-                camera = {
+                camera = { modifier, state ->
                     CameraScreenPlaceholderPreview(
-                        modifier = it
+                        modifier = modifier,
                     )
                 }
             )

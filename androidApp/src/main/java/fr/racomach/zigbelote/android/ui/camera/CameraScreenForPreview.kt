@@ -1,4 +1,4 @@
-package fr.racomach.zigbelote.android.camera
+package fr.racomach.zigbelote.android.ui.camera
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

@@ -1,4 +1,4 @@
-package fr.racomach.zigbelote.android.ui.detail
+package fr.racomach.zigbelote.android.ui.camera
 
 import android.view.animation.AnticipateOvershootInterpolator
 import androidx.compose.animation.AnimatedVisibility

@@ -13,13 +13,13 @@ sealed class DetectCardUiState(
     ) : DetectCardUiState(cards, matchPoint)
 
     data class DetectingCard(
-        override val cards: List<CardModel>,
-        override val matchPoint: Int,
+        override val cards: List<CardModel> = emptyList(),
+        override val matchPoint: Int = 0,
     ) : DetectCardUiState(cards, matchPoint)
 
     data class NewCard(
-        override val cards: List<CardModel>,
-        override val matchPoint: Int,
+        override val cards: List<CardModel> = emptyList(),
+        override val matchPoint: Int = 0,
         val card: CardModel,
         val cardPoint: Int,
         val resume: () -> Unit,

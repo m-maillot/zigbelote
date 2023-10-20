@@ -1,4 +1,4 @@
-package fr.racomach.zigbelote.android.ui.detail
+package fr.racomach.zigbelote.android.ui.camera
 
 import android.view.animation.AnticipateOvershootInterpolator
 import androidx.compose.animation.AnimatedVisibility
@@ -55,7 +55,7 @@ fun CardFound(
                     easing = AnticipateOvershootInterpolator().toEasing()
                 )
             ),
-            exit = fadeOut(animationSpec = tween(1000))
+            exit = fadeOut(animationSpec = tween(500))
         ) {
             CardUi(
                 modifier = Modifier

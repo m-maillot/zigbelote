@@ -1,4 +1,4 @@
-package fr.racomach.zigbelote.android.camera
+package fr.racomach.zigbelote.android.ui.camera
 
 import android.util.Log
 import android.view.View
@@ -37,9 +37,13 @@ import java.util.concurrent.Executors
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun CameraScreen(modifier: Modifier = Modifier, onNewDetection: (result: ObjectDetectorResult) -> Unit) {
+fun CameraScreen(
+    modifier: Modifier = Modifier,
+    onNewDetection: (result: ObjectDetectorResult) -> Unit
+) {
 
-    val cameraPermissionState: PermissionState = rememberPermissionState(android.Manifest.permission.CAMERA)
+    val cameraPermissionState: PermissionState =
+        rememberPermissionState(android.Manifest.permission.CAMERA)
 
     LaunchedEffect(key1 = Unit) {
         if (!cameraPermissionState.status.isGranted && !cameraPermissionState.status.shouldShowRationale) {
@@ -61,25 +65,32 @@ fun CameraScreen(modifier: Modifier = Modifier, onNewDetection: (result: ObjectD
 
 @androidx.annotation.OptIn(ExperimentalGetImage::class)
 @Composable
-private fun CameraPreview(modifier: Modifier = Modifier, onNewDetection: (result: ObjectDetectorResult) -> Unit) {
+private fun CameraPreview(
+    modifier: Modifier = Modifier,
+    onNewDetection: (result: ObjectDetectorResult) -> Unit
+) {
 
     val context = LocalContext.current
     val lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
-    val cameraController: LifecycleCameraController = remember { LifecycleCameraController(context) }
+    val cameraController: LifecycleCameraController =
+        remember { LifecycleCameraController(context) }
     val executor = remember { Executors.newSingleThreadExecutor() }
     val objectDetectorHelper: ObjectDetectorHelper = remember {
-        ObjectDetectorHelper(runningMode = RunningMode.LIVE_STREAM, context = context, objectDetectorListener = object : DetectorListener {
-            override fun onError(error: String, errorCode: Int) {
-                Log.e("MMA-DEBUG", "Error : $error ($errorCode)")
-            }
-
-            override fun onResults(resultBundle: ObjectDetectorHelper.ResultBundle) {
-                val result = resultBundle.results.firstOrNull()
-                if (result != null) {
-                    onNewDetection(result)
+        ObjectDetectorHelper(
+            runningMode = RunningMode.LIVE_STREAM,
+            context = context,
+            objectDetectorListener = object : DetectorListener {
+                override fun onError(error: String, errorCode: Int) {
+                    Log.e("MMA-DEBUG", "Error : $error ($errorCode)")
                 }
-            }
-        })
+
+                override fun onResults(resultBundle: ObjectDetectorHelper.ResultBundle) {
+                    val result = resultBundle.results.firstOrNull()
+                    if (result != null) {
+                        onNewDetection(result)
+                    }
+                }
+            })
     }
     val imageAnalyzer: ImageAnalysis.Analyzer = remember {
         ImageAnalysis.Analyzer { imageProxy ->

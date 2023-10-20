@@ -10,9 +10,10 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import dagger.hilt.android.AndroidEntryPoint
-import fr.racomach.zigbelote.android.camera.CameraScreen
+import fr.racomach.zigbelote.android.ui.camera.CameraScreen
 import fr.racomach.zigbelote.android.theme.ZigBeloteTheme
 import fr.racomach.zigbelote.android.ui.DetectionScreen
+import fr.racomach.zigbelote.android.ui.camera.CameraView
 import fr.racomach.zigbelote.android.viewModel.DetectCardViewModel
 
 @AndroidEntryPoint
@@ -33,10 +34,12 @@ class MainActivity : ComponentActivity() {
                 ) {
                     DetectionScreen(
                         state = state,
-                        camera = {
-                            CameraScreen(
-                                modifier = it, onNewDetection = viewModel::onDetect
-                            )
+                        camera = { modifier, state ->
+                            CameraView(modifier = modifier, state = state) {
+                                CameraScreen(
+                                    modifier = modifier, onNewDetection = viewModel::onDetect
+                                )
+                            }
                         }
                     )
                 }
