@@ -10,17 +10,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import fr.racomach.zigbelote.android.ui.camera.CameraScreenPlaceholderPreview
 import fr.racomach.zigbelote.android.theme.ZigBeloteTheme
+import fr.racomach.zigbelote.android.ui.camera.CameraScreenPlaceholderPreview
 import fr.racomach.zigbelote.android.ui.detail.Details
+import fr.racomach.zigbelote.android.ui.scoring.Score
 import fr.racomach.zigbelote.android.viewModel.DetectCardUiState
 import fr.racomach.zigbelote.android.viewModel.stateIdleForPreview
 
@@ -44,8 +44,8 @@ fun DetectionScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight()
-                .weight(0.7f)
-                .padding(16.dp),
+                .weight(0.65f)
+                .padding(horizontal = 16.dp, vertical = 8.dp),
             contentAlignment = Alignment.Center
         ) {
             camera(
@@ -59,8 +59,8 @@ fun DetectionScreen(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(0.2f)
-                .padding(8.dp),
+                .padding(start = 16.dp, end = 16.dp, bottom = 16.dp, top = 8.dp)
+                .weight(0.25f),
             contentAlignment = Alignment.BottomCenter
         ) {
             Details(
@@ -71,7 +71,6 @@ fun DetectionScreen(
     }
 }
 
-
 @Preview(
     device = Devices.NEXUS_7,
     showBackground = true,
@@ -79,11 +78,10 @@ fun DetectionScreen(
     name = "Ecran principal"
 )
 @Composable
-private fun DetectionScreenPreview() {
+private fun DetectionScreenLightPreview() {
     ZigBeloteTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colors.background
         ) {
             DetectionScreen(
                 state = stateIdleForPreview,

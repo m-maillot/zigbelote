@@ -1,0 +1,36 @@
+package fr.racomach.zigbelote.android.theme
+
+import androidx.compose.ui.graphics.Color
+
+val md_theme_dark_primary = Color(0xFFE1C63F)
+val md_theme_dark_onPrimary = Color(0xFF393000)
+val md_theme_dark_primaryContainer = Color(0xFF534600)
+val md_theme_dark_onPrimaryContainer = Color(0xFFFEE259)
+val md_theme_dark_secondary = Color(0xFF7CDA9C)
+val md_theme_dark_onSecondary = Color(0xFF00391D)
+val md_theme_dark_secondaryContainer = Color(0xFF00522C)
+val md_theme_dark_onSecondaryContainer = Color(0xFF97F7B6)
+val md_theme_dark_tertiary = Color(0xFF82D996)
+val md_theme_dark_onTertiary = Color(0xFF003919)
+val md_theme_dark_tertiaryContainer = Color(0xFF005226)
+val md_theme_dark_onTertiaryContainer = Color(0xFF9DF6B0)
+val md_theme_dark_error = Color(0xFFFFB4AB)
+val md_theme_dark_errorContainer = Color(0xFF93000A)
+val md_theme_dark_onError = Color(0xFF690005)
+val md_theme_dark_onErrorContainer = Color(0xFFFFDAD6)
+val md_theme_dark_background = Color(0xFF112F1D)
+val md_theme_dark_onBackground = Color(0xFFE7E2D9)
+val md_theme_dark_surface = Color(0xFF112F1D)
+val md_theme_dark_onSurface = Color(0xFFE7E2D9)
+val md_theme_dark_surfaceVariant = Color(0xFF4B4739)
+val md_theme_dark_onSurfaceVariant = Color(0xFFCDC6B4)
+val md_theme_dark_outline = Color(0xFF969080)
+val md_theme_dark_inverseOnSurface = Color(0xFF1D1B16)
+val md_theme_dark_inverseSurface = Color(0xFFE7E2D9)
+val md_theme_dark_inversePrimary = Color(0xFF6D5E00)
+val md_theme_dark_surfaceTint = Color(0xFFE1C63F)
+val md_theme_dark_outlineVariant = Color(0xFF4B4739)
+val md_theme_dark_scrim = Color(0xFF000000)
+
+
+val seed = Color(0xFFE8CD46)

@@ -13,30 +13,33 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import fr.racomach.zigbelote.android.extensions.toEasing
-import fr.racomach.zigbelote.android.ui.CardModel
-import fr.racomach.zigbelote.android.ui.CardUi
-import fr.racomach.zigbelote.android.ui.cardQueenOfHeartPreview
+import fr.racomach.zigbelote.android.theme.ZigBeloteColor
 
 @Composable
-fun CardFound(
+fun CardPoints(
     modifier: Modifier = Modifier,
     visibleState: MutableTransitionState<Boolean>,
-    card: CardModel,
+    cardPoint: Int,
 ) {
     Box(
         modifier = modifier
-            .fillMaxHeight()
+            .fillMaxSize(),
+        contentAlignment = Alignment.Center,
     ) {
         AnimatedVisibility(
             modifier = Modifier.align(Alignment.Center),
@@ -49,15 +52,22 @@ fun CardFound(
                 )
             ),
             exit = slideOutVertically(animationSpec = tween(500), targetOffsetY = {
-                (it * 0.7).toInt()
+                -(it + (it * 0.75)).toInt()
             }) + scaleOut(animationSpec = tween(500))
         ) {
-
-            CardUi(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .padding(32.dp),
-                cardModel = card
+            Text(
+                modifier = Modifier.align(Alignment.Center),
+                text = "+ $cardPoint",
+                fontSize = 128.sp,
+                color = ZigBeloteColor.yellow,
+                fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.headlineLarge.copy(
+                    shadow = Shadow(
+                        color = Color.Black.copy(alpha = 0.7f),
+                        offset = Offset(x = 4f, y = 5f),
+                        blurRadius = 1f
+                    )
+                ),
             )
         }
     }
@@ -69,17 +79,17 @@ fun CardFound(
     showSystemUi = true,
 )
 @Composable
-private fun CardFoundPreview() {
+private fun CardPointsPreview() {
 
     val visibleState = remember { MutableTransitionState(true) }
 
     Column(modifier = Modifier.fillMaxSize()) {
-        CardFound(
+        CardPoints(
             modifier = Modifier
                 .fillMaxHeight(0.3f)
                 .fillMaxWidth(),
             visibleState = visibleState,
-            card = cardQueenOfHeartPreview,
+            cardPoint = 3,
         )
         Button(
             onClick = { visibleState.targetState = !visibleState.targetState },

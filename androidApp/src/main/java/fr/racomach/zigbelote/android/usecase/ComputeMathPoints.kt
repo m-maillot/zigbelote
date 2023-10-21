@@ -22,7 +22,12 @@ class ComputeMathPoints @Inject constructor(
 
     sealed class Output {
         data class Idle(val cards: List<Card>, val points: Int) : Output()
-        data class NewCard(val card: Card, val cardPoint: Int, val resume: CompletableDeferred<Unit>) : Output()
+        data class NewCard(
+            val card: Card,
+            val cardPoint: Int,
+            val resume: CompletableDeferred<Unit>
+        ) : Output()
+
         data object DetectingCard : Output()
     }
 
@@ -33,10 +38,16 @@ class ComputeMathPoints @Inject constructor(
         send(Output.Idle(emptyList(), 0))
         handleDetection.detectFlow.collect { result ->
             if (result != null) {
-                val bestResult = result.toCards().filter { it.confidence > 0.7f }.maxByOrNull { it.confidence }
+                val bestResult =
+                    result.toCards().filter { it.confidence > 0.7f }.maxByOrNull { it.confidence }
 
                 if (bestResult == null) {
-                    send(Output.Idle(detectedCards.toList(), computePoints(detectedCards, contract)))
+                    send(
+                        Output.Idle(
+                            detectedCards.toList(),
+                            computePoints(detectedCards, contract)
+                        )
+                    )
                 } else {
                     // Update the last detection because card has changed
                     val oldBestCard = lastDetection
@@ -94,10 +105,16 @@ class ComputeMathPoints @Inject constructor(
 }
 
 private fun ObjectDetectorResult.toCards() = detections().flatMap { detection: Detection? ->
-    detection?.categories()?.map { CardDetection(it.categoryName().toCard(), it.score(), timestampMs()) } ?: emptySet()
+    detection?.categories()
+        ?.map { CardDetection(it.categoryName().toCard(), it.score(), timestampMs()) } ?: emptySet()
 }
 
-private data class CardDetection(val card: Card, val confidence: Float, val timestampMs: Long, val accepted: Boolean? = null)
+private data class CardDetection(
+    val card: Card,
+    val confidence: Float,
+    val timestampMs: Long,
+    val accepted: Boolean? = null
+)
 
 
 @JvmName("categoryNameToCard")

@@ -13,10 +13,10 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.Button
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -39,14 +39,14 @@ fun DetectedCard(modifier: Modifier = Modifier, visibleState: MutableTransitionS
                     easing = AnticipateOvershootInterpolator().toEasing()
                 )
             ),
-            exit = fadeOut(animationSpec = tween(100))
+            exit = fadeOut(animationSpec = tween(300))
         ) {
             CircularProgressIndicator(
                 modifier = Modifier
                     .width(64.dp)
                     .align(Alignment.Center),
-                color = MaterialTheme.colors.primary,
-                backgroundColor = MaterialTheme.colors.onPrimary,
+                color = MaterialTheme.colorScheme.primary,
+                trackColor = MaterialTheme.colorScheme.onPrimary,
             )
         }
     }

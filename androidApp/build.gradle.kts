@@ -47,14 +47,17 @@ kapt {
 val camerax_version = "1.3.0-rc02"
 val accompanist_version = "0.33.2-alpha"
 val hilt_version = "2.48"
+val compose_version = "1.5.4"
+val material_version = "1.2.0-alpha09"
 
 dependencies {
     implementation(project(":shared"))
-    implementation("androidx.compose.ui:ui:1.5.2")
-    implementation("androidx.compose.ui:ui-tooling:1.5.2")
-    implementation("androidx.compose.ui:ui-tooling-preview:1.5.2")
-    implementation("androidx.compose.foundation:foundation:1.5.2")
-    implementation("androidx.compose.material:material:1.5.2")
+    implementation("androidx.compose.ui:ui:$compose_version")
+    implementation("androidx.compose.animation:animation:$compose_version")
+    implementation("androidx.compose.ui:ui-tooling:$compose_version")
+    implementation("androidx.compose.ui:ui-tooling-preview:$compose_version")
+    implementation("androidx.compose.foundation:foundation:$compose_version")
+    implementation("androidx.compose.material3:material3:$material_version")
 
     implementation("androidx.camera:camera-camera2:$camerax_version")
     implementation("androidx.camera:camera-lifecycle:$camerax_version")
@@ -64,7 +67,7 @@ dependencies {
 
     implementation("com.google.accompanist:accompanist-permissions:$accompanist_version")
 
-    implementation("androidx.activity:activity-compose:1.7.2")
+    implementation("androidx.activity:activity-compose:1.8.0")
 
     implementation("com.google.mediapipe:tasks-vision:0.10.5.2")
 

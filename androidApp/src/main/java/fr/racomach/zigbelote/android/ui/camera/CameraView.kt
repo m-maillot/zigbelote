@@ -4,10 +4,9 @@ import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -19,6 +18,8 @@ import fr.racomach.zigbelote.android.R
 import fr.racomach.zigbelote.android.theme.ZigBeloteTheme
 import fr.racomach.zigbelote.android.ui.CardModel
 import fr.racomach.zigbelote.android.viewModel.DetectCardUiState
+import kotlinx.coroutines.delay
+import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 fun CameraView(
@@ -27,6 +28,9 @@ fun CameraView(
     camera: @Composable BoxScope.(Modifier) -> Unit
 ) {
     val newCardVisibility = remember {
+        MutableTransitionState(false)
+    }
+    val newCardPointVisibility = remember {
         MutableTransitionState(false)
     }
     val cardDetected = remember {
@@ -44,6 +48,7 @@ fun CameraView(
             is DetectCardUiState.DetectingCard -> {
                 if (newCardVisibility.targetState) {
                     newCardVisibility.targetState = false
+                    newCardPointVisibility.targetState = false
                 }
                 detectCardVisibility.targetState = true
             }
@@ -51,6 +56,7 @@ fun CameraView(
             is DetectCardUiState.Idle -> {
                 if (newCardVisibility.targetState) {
                     newCardVisibility.targetState = false
+                    newCardPointVisibility.targetState = false
                 }
                 detectCardVisibility.targetState = false
             }
@@ -60,20 +66,35 @@ fun CameraView(
                 cardDetected.value = state.card
                 resume.value = state.resume
                 newCardVisibility.targetState = true
+                newCardPointVisibility.targetState = true
             }
         }
     }
 
-    if (newCardVisibility.currentState && newCardVisibility.targetState && newCardVisibility.isIdle) {
-        resume.value.invoke()
+    LaunchedEffect(newCardVisibility.currentState) {
+        if (newCardVisibility.currentState && newCardVisibility.targetState && newCardVisibility.isIdle) {
+            delay(500.milliseconds)
+            newCardVisibility.targetState = false
+            newCardPointVisibility.targetState = false
+        }
+        if (!newCardVisibility.currentState && !newCardVisibility.targetState && newCardVisibility.isIdle) {
+            resume.value.invoke()
+        }
     }
+
+
 
     Box(modifier = modifier) {
         camera(Modifier.fillMaxSize())
         DetectedCard(visibleState = detectCardVisibility)
         CardFound(
+            modifier = Modifier.fillMaxSize(),
             visibleState = newCardVisibility,
             card = cardDetected.value,
+        )
+        CardPoints(
+            modifier = Modifier.fillMaxSize(),
+            visibleState = newCardPointVisibility,
             cardPoint = (state as? DetectCardUiState.NewCard)?.cardPoint ?: 0
         )
     }
@@ -94,7 +115,6 @@ private fun CameraScreenPreview() {
     ZigBeloteTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colors.background
         ) {
             Box(modifier = Modifier.fillMaxSize()) {
                 CameraView(
